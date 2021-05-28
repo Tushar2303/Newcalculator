@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +18,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -28,8 +28,16 @@ class _MyHomePageState extends State<MyHomePage> {
    int secondnum=0;
    String texttodisplay='';
    String res='';
+   int fact=1;
    String operatortoperform='';
    String showresult='';
+
+   find(int value){
+ for(int i=2;i<=value;i++){
+   fact=fact*i;
+ }
+ return fact;
+}
   void btnclicked(String btnval){
     if(btnval=='C'){
       firstnum=0;
@@ -37,22 +45,29 @@ class _MyHomePageState extends State<MyHomePage> {
       res='0'; 
       texttodisplay='';
       showresult='0';
+     fact=1;
 
     }
-    else if(btnval=='+'||btnval=="-"||btnval=='x'||btnval=='/'){
+    else if(btnval=='+'||btnval=="-"||btnval=='sqr'||btnval=='x'||btnval=='/'||btnval=='x!'){
       firstnum=int.parse(texttodisplay);
+      operatortoperform = btnval;
+       if(operatortoperform=='sqr'){
+        res=(firstnum*firstnum).toString();
+      }
+   else if(operatortoperform=='x!'){
+      res=find(firstnum).toString();
+    }
+    else{
       res='';
       operatortoperform = btnval;
-    
-
-
-    }
+    }}
     else if(btnval == '='){
       secondnum=int.parse(texttodisplay);
       if(operatortoperform=='+'){
         res=(firstnum+secondnum).toString();
         showresult=firstnum.toString()+operatortoperform.toString()+secondnum.toString();
       }
+     
       if(operatortoperform=='-'){
         res=(firstnum-secondnum).toString();
       }
@@ -75,14 +90,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget custombutton(String btnval) {
     return Expanded(
       child: FlatButton(
-                        color: Colors.grey,
+                        color: Colors.black12,
                         textColor: Colors.black,
         padding: EdgeInsets.all(35.0),
         shape:  BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),side: BorderSide(color: Colors.white10,width: 3)),
+                    borderRadius: BorderRadius.circular(10),side: BorderSide(color: Colors.black26,width: 3)),
         
         onPressed:()=> (btnclicked(btnval)) ,
-        child: Text('$btnval',style:TextStyle(color:Colors.black38,fontSize: 15.0),),
+        child: Text('$btnval',style:TextStyle(color:Colors.black38,fontSize: 15.0,)),
             ),
     );
   }
@@ -98,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        color: Colors.black26,
+        color: Colors.grey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
 
@@ -113,6 +128,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('$texttodisplay',style: TextStyle(fontSize: 60.0,color:Colors.black54),),
               
             ),
+            Row(
+              children:[
+                custombutton('sqr'),
+                SizedBox(width:10.0),
+                custombutton('x!')
+              ]
+            ),
+            SizedBox(height:10.0),
             Row(
               children: [
                 SizedBox(width:10.0),
